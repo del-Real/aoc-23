@@ -10,20 +10,22 @@
 
 #include <ctype.h>
 #include <stdio.h>
+#include <string.h>
 
 int concatenate(int x, int y);
 
 int main() {
-    FILE *fp;
     int ch, sum;
-    int i = 0;  // always initialize to avoid errors
+    int i;
     int digits[10];
+
+    FILE *fp;
 
     fp = fopen("day1_input.txt", "r");  // "r" read mode
 
     if (fp == NULL)  // check input file
     {
-        perror("input file Error");
+        perror("Error: Input File not found");
         return 1;
     }
 
@@ -31,16 +33,21 @@ int main() {
     while ((ch = fgetc(fp)) != EOF) {
         // digit found
         if (isdigit(ch)) {
-            digits[i] = ch - '0';  // convert to integer
-            printf("%d", digits[i]);
+            digits[i] = ch - '0';     // convert to integer
+            printf("%d", digits[i]);  // print digits
             i++;
+        }
+
+        // contains
+        if (strstr(digits, "one") != NULL) {
+            printf("HOLAOERFKSDOPKGOPDKOPSFGOPK");
         }
 
         // jump line found
         if (ch == '\n') {
             int number;
 
-            printf("---%d---", i);
+            printf("---%d---", i);  // print n of digits
 
             // check array length
             switch (i) {
@@ -60,8 +67,7 @@ int main() {
                 default:
                     if (i >= 3) {
                         // concatenate first and last digit
-                        i -= 1;
-                        number = concatenate(digits[0], digits[i]);
+                        number = concatenate(digits[0], digits[i - 1]);
                         printf("%d", number);
                         sum += number;
                     }
